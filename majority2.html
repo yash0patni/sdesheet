@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Majority Element II</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <style>
+            td {
+                border:  black solid 1px;
+                height: 50px;
+                text-align: center;
+            }
+            .result table {
+                width: 400px;
+            }
+            .result td {
+                border: black solid 1px;
+                color: black;
+                background-color: white;    
+            }
+        </style>
+        
+    </head>
+    <body>
+        <div class="container">
+            <h2 align="center">Majority Element II</h2>
+            <hr>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4><strong>Problem</strong></h4>
+                    
+                    <p>Given an integer array of size n, find all elements that appear more than ⌊ n/3 ⌋ times.</p>
+                    <p><strong>Note:</strong> The algorithm should run in linear time and in O(1) space.</p>
+                    <p><strong>Example 1:</strong></p>
+                    <p>Input: [3,2,3]</p>
+                    <p>Output: [3]</p>
+                    <p><strong>Example 2:</strong></p>
+                    <p>Input: [1,1,1,3,3,2,2,2]</p>
+                    <p>Output: [1,2]</p>
+                    <a href="https://leetcode.com/problems/majority-element-ii/" target="blank">Try here...</a>
+                    <hr>
+                    <h4><strong>Tutorial</strong></h4>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/yDbkQd9t2ig" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+
+                <div id="visual" class="col-sm-6">
+                    <h4><strong>Visualize</strong></h4>
+                    <form>
+                        <div class="form-group">
+                            <label>Enter Array Elements:</label>
+                            <input id="inputtxt" type="text" name="arrelement" placeholder="Comma Seprated">
+                            <button type="button" class="btn btn-success" onclick="createArray()">Create Array</button>
+                        </div>
+                    </form>
+                    <div class="display">
+
+                    </div>
+                    <script>
+                        var arr = [1,1,1,3,3,2,2,2];
+
+                        var body, tab, tr, td, tn, row, col, cnt, res, cont, brow, bcol, disp;
+
+                        function showArray(arr) {
+                            disp = document.getElementsByClassName('display')[0];
+                            tab = document.createElement('table');
+                            tab.setAttribute("id", "temptable");
+                            var s = 50 * arr.length;
+                            tab.style.width = s + "px";
+                            tr = document.createElement('tr');
+                            for (col=0; col < arr.length; col++){
+                                td = document.createElement('td');
+                                tn = document.createTextNode(arr[col]);
+                                td.appendChild(tn);
+                                tr.appendChild(td);
+                            }
+                            tab.appendChild(tr);
+                            disp.appendChild(tab);
+
+                            tab = document.getElementsByTagName('table')[0];
+                            tr = tab.getElementsByTagName('tr')[0];
+                            td = tr.getElementsByTagName('td');
+                            col = 0;
+                            cnt1 = 0;
+                            res1 = -1;
+                            cnt2 = 0;
+                            res2 = -1;
+                        }
+                        
+                        function createArray() {
+                            var nums = document.getElementById('inputtxt').value;
+                            
+                            nums = nums.split(',');
+                            for (a in nums)
+                                nums[a] = parseInt(nums[a], 10);
+                            
+                            arr = nums;
+                            var tt = document.getElementById("temptable");
+                            tt.parentNode.removeChild(tt);
+                            cnt1 = 0;
+                            res1 = -1;
+                            cnt2 = 0;
+                            res2 = -1;
+                            var c1 = updateCnt(cnt1, 1);
+                            var r1 = updateRes(res1, 1);
+                            var c2 = updateCnt(cnt2, 2);
+                            var r2 = updateRes(res2, 2);
+                            var ans = document.getElementById("ans");
+                            if (ans)
+                                ans.textContent = "";
+                            c1.style.color = "black";
+                            c1.style.background = "white";
+                            r1.style.color = "black";
+                            r1.style.background = "white";
+                            c2.style.color = "black";
+                            c2.style.background = "white";
+                            r2.style.color = "black";
+                            r2.style.background = "white";
+                            showArray(arr);
+                        }
+
+                        showArray(arr);
+
+                        function updateCnt(cnt, num) {
+                            var c;
+                            if (num == 1)
+                                c = document.getElementById("cnt1");
+                            else
+                                c = document.getElementById("cnt2");
+                            c.textContent = cnt + "";
+                            return c;
+                        }
+        
+                        function updateRes(res, num) {
+                            var r;
+                            if (num == 1)
+                                r = document.getElementById("res1");
+                            else
+                                r = document.getElementById("res2");
+                            r.textContent = res + "";
+                            return r;
+                        }
+        
+                        function myloop(callback) {
+                            setTimeout(function() {
+                                td[col].style.background = "black";
+                                td[col].style.color = "white";
+                                if (col > 0)
+                                {
+                                    td[col-1].style.background = "white";
+                                    td[col-1].style.color = "black";
+                                }
+                                if (arr[col] == res1)
+                                {
+                                    cnt1++;
+                                    var c = updateCnt(cnt1, 1);
+                                    c.style.background = "green";
+                                    var t;
+                                    t = updateCnt(cnt2, 2);
+                                    t.style.background = "white";
+                                    t = updateRes(res1, 1);
+                                    t.style.background = "white";
+                                    t = updateRes(res2, 2);
+                                    t.style.background = "white";
+                                }
+                                else if (arr[col] == res2)
+                                {
+                                    cnt2++;
+                                    var c = updateCnt(cnt2, 2);
+                                    c.style.background = "green";
+                                    var t;
+                                    t = updateCnt(cnt1, 1);
+                                    t.style.background = "white";
+                                    t = updateRes(res1, 1);
+                                    t.style.background = "white";
+                                    t = updateRes(res2, 2);
+                                    t.style.background = "white";
+                                }
+                                else if (cnt1 == 0)
+                                {
+                                    res1 = arr[col];
+                                    cnt1++;
+                                    var c = updateCnt(cnt1, 1);
+                                    c.style.background = "green";
+                                    var r = updateRes(res1, 1);
+                                    r.style.background = "green";
+                                    var t;
+                                    t = updateCnt(cnt2, 2);
+                                    t.style.background = "white";
+                                    t = updateRes(res2, 2);
+                                    t.style.background = "white";
+                                }
+                                else if (cnt2 == 0)
+                                {
+                                    res2 = arr[col];
+                                    cnt2++;
+                                    var c = updateCnt(cnt2, 2);
+                                    c.style.background = "green";
+                                    var r = updateRes(res2, 2);
+                                    r.style.background = "green";
+                                    var t;
+                                    t = updateCnt(cnt1, 1);
+                                    t.style.background = "white";
+                                    t = updateRes(res1, 1);
+                                    t.style.background = "white";
+                                }
+                                else
+                                {
+                                    cnt1--;
+                                    cnt2--;
+                                    var c = updateCnt(cnt1, 1);
+                                    c.style.background = "red";
+                                    c = updateCnt(cnt2, 2);
+                                    c.style.background = "red";
+                                    var t;
+                                    t = updateRes(res1, 1);
+                                    t.style.background = "white";
+                                    t = updateRes(res2, 2);
+                                    t.style.background = "white";
+                                }
+                                col++;
+                                
+                                if (col < arr.length)
+                                    myloop(callback);
+                                else
+                                {
+                                    col = 0;
+                                    callback(ans);
+                                }
+                            }, 1000)
+                        }
+
+                        function traverse(callback) {
+                            setTimeout(function() {
+                                if (col == 0)
+                                {
+                                    var t;
+                                    cnt1 = 0;
+                                    cnt2 = 0;
+                                    t = updateRes(res1, 1);
+                                    t.style.background = "yellow";
+                                    t = updateRes(res2, 2);
+                                    t.style.background = "lightblue";
+                                    t = updateCnt(cnt1, 1);
+                                    t.style.background = "white";
+                                    t = updateCnt(cnt2, 2);
+                                    t.style.background = "white";
+                                    td[arr.length-1].style.background = "white";
+                                    td[arr.length-1].style.color = "black";
+                                }
+                                td[col].style.background = "black";
+                                td[col].style.color = "white";
+                                if (col > 0)
+                                {
+                                    td[col-1].style.background = "white";
+                                    td[col-1].style.color = "black";
+                                    if (arr[col-1] == res1)
+                                    {
+                                        console.log('yellow');
+                                        td[col-1].style.background = "yellow";
+                                    }
+                                    if (arr[col-1] == res2)
+                                    {
+                                        console.log('lightblue');
+                                        td[col-1].style.background = "lightblue";
+                                    }
+                                }
+                                
+                                if (arr[col] == res1)
+                                {
+                                    cnt1++;
+                                    var c = updateCnt(cnt1, 1);
+                                    c.style.background = "yellow";
+                                }
+                                else if (arr[col] == res2)
+                                {
+                                    cnt2++;
+                                    var c = updateCnt(cnt2, 2);
+                                    c.style.background = "lightblue";
+                                }
+                                else
+                                {
+                                    var c = updateCnt(cnt1, 1);
+                                    c.style.background = "white";
+                                    c = updateCnt(cnt2, 2);
+                                    c.style.background = "white";
+                                }
+
+                                col++;
+                                
+                                if (col < arr.length)
+                                    traverse(callback);
+                                else
+                                {
+                                    td[col-1].style.background = "white";
+                                    td[col-1].style.color = "black";
+                                    if (arr[col-1] == res1)
+                                    {
+                                        console.log('yellow');
+                                        td[col-1].style.background = "yellow";
+                                    }
+                                    if (arr[col-1] == res2)
+                                    {
+                                        console.log('lightblue');
+                                        td[col-1].style.background = "lightblue";
+                                    }
+                                    var t;
+                                    if (cnt1 > arr.length / 3)
+                                    {
+                                        t = updateCnt(cnt1, 1);
+                                        t.style.background = "green";
+                                    }
+                                    else
+                                    {
+                                        t = updateCnt(cnt1, 1);
+                                        t.style.background = "red";
+                                    }
+                                    if (cnt2 > arr.length / 3)
+                                    {
+                                        t = updateCnt(cnt2, 2);
+                                        t.style.background = "green";
+                                    }
+                                    else
+                                    {
+                                        t = updateCnt(cnt2, 2);
+                                        t.style.background = "red";
+                                    }
+                                    callback();
+                                }
+                            }, 1000)
+                        }
+
+                        function ans() {
+                            var r = document.getElementById("ans");
+                            if (r)
+                            {
+                                var answer = [];
+                                if (cnt1 > arr.length / 3)
+                                    answer.push(res1);
+                                if (cnt2 > arr.length / 3)
+                                    answer.push(res2);
+                                r.textContent = "Majority Element: [" + answer + "]";
+                            }
+                        }
+                    </script>
+                    </br>
+                    <div class="result">
+                        <table>
+                            <tr>
+                                <td>Count 1</td>
+                                <td id="cnt1" style="min-width: 20px;">0</td>
+                                <td>Count 2</td>
+                                <td id="cnt2" style="min-width: 20px;">0</td>
+                            </tr>
+                            <tr>
+                                <td>Majority 1</td>
+                                <td id="res1">-1</td>
+                                <td>Majority 2</td>
+                                <td id="res2">-1</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr>
+                    <p align="center"><button type="button" class="btn btn-primary" onclick="myloop(traverse)">Find Majority</button></p>
+                    <hr>
+                    <h4 id="ans"></h4>
+                    <h4><strong>C++ Code</strong></h4>
+                    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+                    <div>
+                        <pre class="prettyprint">
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        int n = nums.size();
+        int m = n/3 + 1;
+        vector<int> ans;
+        
+        int n1 = -1;
+        int n2 = -1;
+        int c1 = 0;
+        int c2 = 0;
+        
+        for (int num : nums)
+        {
+            if (num == n1)
+                c1++;
+            else if (num == n2)
+                c2++;
+            else if (c1 == 0)
+            {
+                
+                n1 = num;
+                c1++;
+            }
+            else if (c2 == 0)
+            {
+                n2 = num;
+                c2++;
+            }
+            else
+            {
+                c1--;
+                c2--;
+            }
+        }
+        
+        c1 = 0;
+        c2 = 0;
+        
+        for (int num : nums)
+        {
+            if (num == n1)
+                c1++;
+            if (num == n2)
+                c2++;
+        }
+        
+        if (c1 >= m)
+            ans.push_back(n1);
+        if (c2 >= m)
+            ans.push_back(n2);
+        
+        return ans;
+    }
+};</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

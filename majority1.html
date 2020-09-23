@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Majority Element I</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <style>
+            td {
+                border:  black solid 1px;
+                height: 50px;
+                text-align: center;
+            }
+            .result table {
+                width: 200px;
+            }
+            .result td {
+                border: black solid 1px;
+                color: black;
+                background-color: white;    
+            }
+        </style>
+        
+    </head>
+    <body>
+        <div class="container">
+            <h2 align="center">Majority Element I</h2>
+            <hr>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4><strong>Problem</strong></h4>
+                    
+                    <p>Given an array of size n, find the majority element. The majority element is the element that appears more than ⌊ n/2 ⌋ times.</p>
+                    <p>You may assume that the array is non-empty and the majority element always exist in the array.</p>
+                    <p><strong>Example 1:</strong></p>
+                    <p>Input: [3,2,3]</p>
+                    <p>Output: 3</p>
+                    <p><strong>Example 2:</strong></p>
+                    <p>Input: [2,2,1,1,1,2,2]</p>
+                    <p>Output: 2</p>
+                    <a href="https://leetcode.com/problems/majority-element/" target="blank">Try here...</a>
+                    <hr>
+                    <h4><strong>Tutorial</strong></h4>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/AoX3BPWNnoE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+
+                <div id="visual" class="col-sm-6">
+                    <h4><strong>Visualize</strong></h4>
+                    <form>
+                        <div class="form-group">
+                            <label>Enter Array Elements:</label>
+                            <input id="inputtxt" type="text" name="arrelement" placeholder="Comma Seprated">
+                            <button type="button" class="btn btn-success" onclick="createArray()">Create Array</button>
+                        </div>
+                    </form>
+                    <div class="display">
+
+                    </div>
+                    <script>
+                        var arr = [7,5,7,7,7,5,5,1,5,5,5,5];
+
+                        var body, tab, tr, td, tn, row, col, cnt, res, cont, brow, bcol, disp;
+
+                        function showArray(arr) {
+                            disp = document.getElementsByClassName('display')[0];
+                            tab = document.createElement('table');
+                            tab.setAttribute("id", "temptable");
+                            var s = 50 * arr.length;
+                            tab.style.width = s + "px";
+                            tr = document.createElement('tr');
+                            for (col=0; col < arr.length; col++){
+                                td = document.createElement('td');
+                                tn = document.createTextNode(arr[col]);
+                                td.appendChild(tn);
+                                tr.appendChild(td);
+                            }
+                            tab.appendChild(tr);
+                            disp.appendChild(tab);
+
+                            tab = document.getElementsByTagName('table')[0];
+                            tr = tab.getElementsByTagName('tr')[0];
+                            td = tr.getElementsByTagName('td');
+                            col = 0;
+                            cnt = 0;
+                            res = 0;
+                        }
+                        
+                        function createArray() {
+                            var nums = document.getElementById('inputtxt').value;
+                            
+                            nums = nums.split(',');
+                            for (a in nums)
+                                nums[a] = parseInt(nums[a], 10);
+                            
+                            arr = nums;
+                            var tt = document.getElementById("temptable");
+                            tt.parentNode.removeChild(tt);
+                            cnt = 0;
+                            res = 0;
+                            var c = updateCnt(cnt);
+                            var r = updateRes(res);
+                            var ans = document.getElementById("ans");
+                            if (ans)
+                                ans.textContent = "";
+                            c.style.color = "black";
+                            c.style.background = "white";
+                            r.style.color = "black";
+                            r.style.background = "white";
+                            showArray(arr);
+                        }
+
+                        showArray(arr);
+
+                        function updateCnt(cnt) {
+                            var c = document.getElementById("cnt");
+                            c.textContent = cnt + "";
+                            return c;
+                        }
+        
+                        function updateRes(res) {
+                            var r = document.getElementById("res");
+                            r.textContent = res + "";
+                            return r;
+                        }
+        
+                        function myloop(callback) {
+                            setTimeout(function() {
+                                td[col].style.background = "black";
+                                td[col].style.color = "white";
+                                if (col > 0)
+                                {
+                                    td[col-1].style.background = "white";
+                                    td[col-1].style.color = "black";
+                                }
+                                if (cnt == 0)
+                                {
+                                    res = arr[col];
+                                    var r = updateRes(res);
+                                    r.style.background = "green";
+                                    r.style.width = 50 + "px";
+                                    r.style.height = 50 + "px";
+                                    r.style.textAlign = "center";
+                                }
+                                else
+                                {
+                                    var r = updateRes(res);
+                                    r.style.background = "white";
+                                    r.style.width = 50 + "px";
+                                    r.style.height = 50 + "px";
+                                    r.style.textAlign = "center";
+                                }
+                                if (res == arr[col])
+                                {
+                                    cnt++;
+                                    var c = updateCnt(cnt);
+                                    c.style.background = "green";
+                                    c.style.width = 50 + "px";
+                                    c.style.height = 50 + "px";
+                                    c.style.textAlign = "center";
+                                }
+                                else
+                                {
+                                    cnt--;
+                                    var c = updateCnt(cnt);
+                                    c.style.background = "red";
+                                    c.style.width = 50 + "px";
+                                    c.style.height = 50 + "px";
+                                    c.style.textAlign = "center";
+                                }
+                                col++;
+                                
+                                if (col < arr.length)
+                                    myloop(callback);
+                                else
+                                    callback();
+                                
+                            }, 1000)
+                        }
+
+                        function ans() {
+                            var r = document.getElementById("ans");
+                            if (r)
+                                r.textContent = "Majority Element: " + res + "";
+                        }
+        
+                        //myloop(ans);
+                    </script>
+                    </br>
+                    <div class="result">
+                        <table>
+                            <tr>
+                                <td>Count</td>
+                                <td id="cnt">0</td>
+                            </tr>
+                            <tr>
+                                <td>Majority</td>
+                                <td id="res">0</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr>
+                    <p align="center"><button type="button" class="btn btn-primary" onclick="myloop(ans)">Find Majority</button></p>
+                    <hr>
+                    <h4 id="ans"></h4>
+                    <h4><strong>C++ Code</strong></h4>
+                    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+                    <div>
+                        <pre class="preetyprint">
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int cnt = 0;
+        int res = 0;
+        
+        for (int num : nums)
+        {
+            if (cnt == 0)
+                res = num;
+            if (res == num)
+                cnt++;
+            else
+                cnt--;
+        }
+        
+        return res;
+    }
+};</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
